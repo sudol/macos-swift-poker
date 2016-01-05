@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA5147D21C39A615002D4305 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147D11C39A615002D4305 /* Game.swift */; };
 		DAF7EB411C35BA89004F7805 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EB401C35BA89004F7805 /* AppDelegate.swift */; };
 		DAF7EB431C35BA89004F7805 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EB421C35BA89004F7805 /* ViewController.swift */; };
 		DAF7EB451C35BA89004F7805 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF7EB441C35BA89004F7805 /* Assets.xcassets */; };
 		DAF7EB481C35BA89004F7805 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF7EB461C35BA89004F7805 /* Main.storyboard */; };
 		DAF7EB531C35BA89004F7805 /* pokerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EB521C35BA89004F7805 /* pokerTests.swift */; };
+		DAF7EB5E1C35C0D4004F7805 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EB5D1C35C0D4004F7805 /* Card.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA5147D11C39A615002D4305 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		DAF7EB3D1C35BA89004F7805 /* poker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = poker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF7EB401C35BA89004F7805 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAF7EB421C35BA89004F7805 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -34,6 +37,7 @@
 		DAF7EB4E1C35BA89004F7805 /* pokerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pokerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF7EB521C35BA89004F7805 /* pokerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokerTests.swift; sourceTree = "<group>"; };
 		DAF7EB541C35BA89004F7805 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAF7EB5D1C35C0D4004F7805 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 				DAF7EB421C35BA89004F7805 /* ViewController.swift */,
 				DAF7EB441C35BA89004F7805 /* Assets.xcassets */,
 				DAF7EB461C35BA89004F7805 /* Main.storyboard */,
+				DAF7EB5D1C35C0D4004F7805 /* Card.swift */,
+				DA5147D11C39A615002D4305 /* Game.swift */,
 				DAF7EB491C35BA89004F7805 /* Info.plist */,
 			);
 			path = poker;
@@ -194,7 +200,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF7EB431C35BA89004F7805 /* ViewController.swift in Sources */,
+				DAF7EB5E1C35C0D4004F7805 /* Card.swift in Sources */,
 				DAF7EB411C35BA89004F7805 /* AppDelegate.swift in Sources */,
+				DA5147D21C39A615002D4305 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +385,7 @@
 				DAF7EB591C35BA89004F7805 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DAF7EB5A1C35BA89004F7805 /* Build configuration list for PBXNativeTarget "pokerTests" */ = {
 			isa = XCConfigurationList;
@@ -385,6 +394,7 @@
 				DAF7EB5C1C35BA89004F7805 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
