@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DA5147D21C39A615002D4305 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147D11C39A615002D4305 /* Game.swift */; };
-		DA9A9AEB1C3C25C800246773 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9A9AEA1C3C25C800246773 /* SplitViewController.swift */; };
-		DA9A9AED1C3C35F800246773 /* RoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9A9AEC1C3C35F800246773 /* RoundViewController.swift */; };
 		DAF7EB411C35BA89004F7805 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EB401C35BA89004F7805 /* AppDelegate.swift */; };
 		DAF7EB431C35BA89004F7805 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7EB421C35BA89004F7805 /* ViewController.swift */; };
 		DAF7EB451C35BA89004F7805 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF7EB441C35BA89004F7805 /* Assets.xcassets */; };
@@ -30,8 +28,6 @@
 
 /* Begin PBXFileReference section */
 		DA5147D11C39A615002D4305 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		DA9A9AEA1C3C25C800246773 /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
-		DA9A9AEC1C3C35F800246773 /* RoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundViewController.swift; sourceTree = "<group>"; };
 		DAF7EB3D1C35BA89004F7805 /* poker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = poker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF7EB401C35BA89004F7805 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAF7EB421C35BA89004F7805 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -85,10 +81,8 @@
 			children = (
 				DAF7EB401C35BA89004F7805 /* AppDelegate.swift */,
 				DAF7EB421C35BA89004F7805 /* ViewController.swift */,
-				DA9A9AEC1C3C35F800246773 /* RoundViewController.swift */,
 				DAF7EB441C35BA89004F7805 /* Assets.xcassets */,
 				DAF7EB461C35BA89004F7805 /* Main.storyboard */,
-				DA9A9AEA1C3C25C800246773 /* SplitViewController.swift */,
 				DAF7EB5D1C35C0D4004F7805 /* Card.swift */,
 				DA5147D11C39A615002D4305 /* Game.swift */,
 				DAF7EB491C35BA89004F7805 /* Info.plist */,
@@ -205,12 +199,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA9A9AEB1C3C25C800246773 /* SplitViewController.swift in Sources */,
 				DAF7EB431C35BA89004F7805 /* ViewController.swift in Sources */,
 				DAF7EB5E1C35C0D4004F7805 /* Card.swift in Sources */,
 				DAF7EB411C35BA89004F7805 /* AppDelegate.swift in Sources */,
 				DA5147D21C39A615002D4305 /* Game.swift in Sources */,
-				DA9A9AED1C3C35F800246773 /* RoundViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
