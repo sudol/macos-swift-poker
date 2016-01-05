@@ -86,17 +86,19 @@ class Game {
         }
     }
     
-    func nextRound() {
-        //If there is an existing round, and it is finished, we save it
+    func newRound() {
+        currentRound = Round(id: ++currentRoundId, players: players)
+        currentRound!.deal()
+    }
+    
+    func saveRound() {
         if currentRound != nil {
             if currentRound?.board.count == 5 {
                 rounds += [currentRound!]
             } else {
-                print("Cannot start another round until the current round is done")
+                print("Cannot save incomplete round")
             }
         }
-        currentRound = Round(id: ++currentRoundId, players: players)
-        currentRound!.deal()
     }
     
 }

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource{
 
     // MARK: Properties
     @IBOutlet weak var seatOneCardOne: NSImageView!
@@ -48,43 +48,64 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBOutlet weak var boardFive: NSImageView!
     
 
-    let game = Game()
+    var game = Game()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*
-            An array to hold all the card images according to seats. We are
-            assuming that player 1 will always sit in seat 1.
-        */
-        let seats = [[seatOneCardOne,seatOneCardTwo], [seatTwoCardOne,seatTwoCardTwo], [seatThreeCardOne,seatThreeCardTwo], [seatFourCardOne,seatFourCardTwo], [seatFiveCardOne,seatFiveCardTwo], [seatSixCardOne,seatSixCardTwo], [seatSevenCardOne,seatSevenCardTwo], [seatEightCardOne,seatEightCardTwo], [seatNineCardOne,seatNineCardTwo], [seatTenCardOne,seatTenCardTwo]]
-        
-        let board = [boardOne, boardTwo, boardThree, boardFour, boardFive]
-        
-        for _ in 1...10 {
-        
-            game.nextRound()
-            
-            var players = game.currentRound!.players
-            for x in 0..<seats.count {
-                seats[x][0]?.image = players[x].hand.cards[0].getImage()
-                seats[x][1]?.image = players[x].hand.cards[1].getImage()
-            }
+        for _ in 1...10000 {
+            game.newRound()
             
             game.currentRound!.flop()
             game.currentRound!.turn()
             game.currentRound!.river()
-            
-            for x in 0..<board.count {
-                board[x]?.image = game.currentRound!.board[x].getImage()
-            }
+
+            game.saveRound()
         }
-        
     }
 
     override var representedObject: AnyObject? {
         didSet {
         // Update the view, if already loaded.
+            print("representedObject.didSet")
+        }
+    }
+    
+    func showRound(roundId: Int) {
+        if roundId < 0 {
+            return
+        }
+        print("Showing Round: \(roundId)")
+
+        /*
+        An array to hold all the card images according to seats. We are
+        assuming that player 1 will always sit in seat 1.
+        */
+        var seats = [
+            [seatOneCardOne,seatOneCardTwo],
+            [seatTwoCardOne,seatTwoCardTwo],
+            [seatThreeCardOne,seatThreeCardTwo],
+            [seatFourCardOne,seatFourCardTwo],
+            [seatFiveCardOne,seatFiveCardTwo],
+            [seatSixCardOne,seatSixCardTwo],
+            [seatSevenCardOne,seatSevenCardTwo],
+            [seatEightCardOne,seatEightCardTwo],
+            [seatNineCardOne,seatNineCardTwo],
+            [seatTenCardOne,seatTenCardTwo]
+        ]
+
+        var board = [boardOne, boardTwo, boardThree, boardFour, boardFive]
+        
+        var players = game.rounds[roundId].players
+
+        for x in 0..<seats.count {
+            seats[x][0]?.image = players[x].hand.cards[0].getImage()
+
+            seats[x][1]?.image = players[x].hand.cards[1].getImage()
+        }
+        
+        for x in 0..<board.count {
+            board[x]?.image = game.rounds[roundId].board[x].getImage()
         }
     }
     
@@ -97,14 +118,18 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let cellView: NSTableCellView = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
         
         if tableColumn!.identifier == "roundId" {
-            print("here")
             let roundId = row
-            cellView.textField!.stringValue = "Round\(game.rounds[roundId].id)"
+            cellView.textField!.stringValue = "Hand \(game.rounds[roundId].id)"
             
             return cellView
         }
         
         return cellView
+    }
+    
+    //MARK: NSTableViewDelegate
+    func tableViewSelectionDidChange(notification: NSNotification) {
+        showRound((notification.object?.selectedRow)!)
     }
     
 }
