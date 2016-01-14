@@ -11,6 +11,7 @@ import Foundation
 struct Player {
     var id : Int
     var hand : Hand
+    var winner = false
     
     init (id : Int) {
         self.id = id
@@ -66,10 +67,12 @@ class Round {
         
         // 1 Card
         board += [deck.cards.removeAtIndex(0)]
+        
+        evaluate()
     }
     
     func evaluate() {
-        
+        players[4].winner = true
     }
 }
 

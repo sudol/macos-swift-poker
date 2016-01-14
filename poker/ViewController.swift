@@ -58,6 +58,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBOutlet var seatNineBox: NSBox!
     @IBOutlet var seatTenBox: NSBox!
     
+    @IBOutlet var summaryBox: NSTextView!
+    
     var game = Game()
     
     override func viewDidLoad() {
@@ -77,7 +79,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     override var representedObject: AnyObject? {
         didSet {
         // Update the view, if already loaded.
-            print("representedObject.didSet")
         }
     }
     
@@ -85,25 +86,22 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         if roundId < 0 {
             return
         }
-        seatEightBox.borderType = NSBorderType.LineBorder
-        seatEightBox.borderColor = NSColor.alternateSelectedControlColor()
-        seatEightBox.borderWidth = 4
         
         /*
         An array to hold all the card images according to seats. We are
         assuming that player 1 will always sit in seat 1.
         */
         var seats = [
-            [seatOneCardOne,seatOneCardTwo],
-            [seatTwoCardOne,seatTwoCardTwo],
-            [seatThreeCardOne,seatThreeCardTwo],
-            [seatFourCardOne,seatFourCardTwo],
-            [seatFiveCardOne,seatFiveCardTwo],
-            [seatSixCardOne,seatSixCardTwo],
-            [seatSevenCardOne,seatSevenCardTwo],
-            [seatEightCardOne,seatEightCardTwo],
-            [seatNineCardOne,seatNineCardTwo],
-            [seatTenCardOne,seatTenCardTwo]
+            [seatOneBox,seatOneCardOne,seatOneCardTwo],
+            [seatTwoBox,seatTwoCardOne,seatTwoCardTwo],
+            [seatThreeBox,seatThreeCardOne,seatThreeCardTwo],
+            [seatFourBox,seatFourCardOne,seatFourCardTwo],
+            [seatFiveBox,seatFiveCardOne,seatFiveCardTwo],
+            [seatSixBox,seatSixCardOne,seatSixCardTwo],
+            [seatSevenBox,seatSevenCardOne,seatSevenCardTwo],
+            [seatEightBox,seatEightCardOne,seatEightCardTwo],
+            [seatNineBox,seatNineCardOne,seatNineCardTwo],
+            [seatTenBox,seatTenCardOne,seatTenCardTwo]
         ]
 
         var board = [boardOne, boardTwo, boardThree, boardFour, boardFive]
@@ -111,9 +109,24 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         var players = game.rounds[roundId].players
 
         for x in 0..<seats.count {
-            seats[x][0]?.image = players[x].hand.cards[0].getImage()
 
-            seats[x][1]?.image = players[x].hand.cards[1].getImage()
+            if let cardOne = seats[x][1] as? NSImageView {
+                cardOne.image = players[x].hand.cards[0].getImage()
+            }
+            
+            if let cardTwo = seats[x][2] as? NSImageView {
+                cardTwo.image = players[x].hand.cards[1].getImage()
+            }
+            
+            if players[x].winner == true {
+                
+                if let seatBox = seats[x][0] as? NSBox {
+                    seatBox.borderType = NSBorderType.LineBorder
+                    seatBox.borderColor = NSColor.alternateSelectedControlColor()
+                    seatBox.borderWidth = 4
+                }
+                
+            }
         }
         
         for x in 0..<board.count {
