@@ -47,13 +47,23 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBOutlet weak var boardFour: NSImageView!
     @IBOutlet weak var boardFive: NSImageView!
     
-
+    @IBOutlet var seatOneBox: NSBox!
+    @IBOutlet var seatTwoBox: NSBox!
+    @IBOutlet var seatThreeBox: NSBox!
+    @IBOutlet var seatFourBox: NSBox!
+    @IBOutlet var seatFiveBox: NSBox!
+    @IBOutlet var seatSixBox: NSBox!
+    @IBOutlet var seatSevenBox: NSBox!
+    @IBOutlet var seatEightBox: NSBox!
+    @IBOutlet var seatNineBox: NSBox!
+    @IBOutlet var seatTenBox: NSBox!
+    
     var game = Game()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for _ in 1...10000 {
+        for _ in 1...100 {
             game.newRound()
             
             game.currentRound!.flop()
@@ -75,8 +85,10 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         if roundId < 0 {
             return
         }
-        print("Showing Round: \(roundId)")
-
+        seatEightBox.borderType = NSBorderType.LineBorder
+        seatEightBox.borderColor = NSColor.alternateSelectedControlColor()
+        seatEightBox.borderWidth = 4
+        
         /*
         An array to hold all the card images according to seats. We are
         assuming that player 1 will always sit in seat 1.
