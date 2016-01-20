@@ -9,32 +9,15 @@
 import Foundation
 import AppKit
 
-enum AlternateRank: Int {
-    case Ace = 1
-    case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
-    case Jack, Queen, King
-    func simpleDescription() -> String {
-        switch self {
-        case .Ace:
-            return "A"
-        case .Jack:
-            return "J"
-        case .Queen:
-            return "Q"
-        case .King:
-            return "K"
-        default:
-            return String(self.rawValue)
-        }
-    }
-}
-
 enum Rank: Int {
+    case AltAce = 1
     case Two = 2
     case Three, Four, Five, Six, Seven, Eight, Nine, Ten
     case Jack, Queen, King, Ace
     func simpleDescription() -> String {
         switch self {
+        case .AltAce:
+            return "A"
         case .Ace:
             return "A"
         case .Jack:
@@ -61,6 +44,44 @@ enum Suit: String {
             return "c"
         case .Diamond:
             return "d"
+        }
+    }
+}
+
+enum HandRanking : Int {
+    case HighCard = 1
+    case OnePair
+    case TwoPair
+    case ThreeOfAKind
+    case Straight
+    case Flush
+    case FullHouse
+    case FourOfAKind
+    case StraightFlush
+    case RoyalFlush
+    
+    func simpleDescription() -> String {
+        switch self {
+        case HighCard:
+            return "High Card"
+        case OnePair:
+            return "One Pair"
+        case TwoPair:
+            return "Two Pair"
+        case ThreeOfAKind:
+            return "Three of a Kind"
+        case Straight:
+            return "Straight"
+        case Flush:
+            return "Flush"
+        case FullHouse:
+            return "Full House"
+        case FourOfAKind:
+            return "Four of a Kind"
+        case StraightFlush:
+            return "Straight Flush"
+        case RoyalFlush:
+            return "Royal Flush"
         }
     }
 }

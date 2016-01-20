@@ -65,7 +65,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for _ in 1...100 {
+        for _ in 1...10000 {
             game.newRound()
             
             game.currentRound!.flop()
@@ -107,15 +107,17 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         var board = [boardOne, boardTwo, boardThree, boardFour, boardFive]
         
         var players = game.rounds[roundId].players
-
+        
+        summaryBox.textStorage?.mutableString.setString("Round \(roundId+1)\n")
+        
         for x in 0..<seats.count {
 
             if let cardOne = seats[x][1] as? NSImageView {
-                cardOne.image = players[x].hand.cards[0].getImage()
+                cardOne.image = players[x].hand.holeCards[0].getImage()
             }
             
             if let cardTwo = seats[x][2] as? NSImageView {
-                cardTwo.image = players[x].hand.cards[1].getImage()
+                cardTwo.image = players[x].hand.holeCards[1].getImage()
             }
             
             if players[x].winner == true {
@@ -127,6 +129,19 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 }
                 
             }
+            
+            if (players[x].hand.handRank != nil) {
+                summaryBox.textStorage?.mutableString.appendString(
+                    "Player \(players[x].id) " +
+                    String(players[x].hand.handRank!.simpleDescription()) + " "
+                )
+                
+                for card in players[x].hand.cards {
+                    summaryBox.textStorage?.mutableString.appendString(card.simpleDescription() + " ")
+                }
+                    summaryBox.textStorage?.mutableString.appendString("\n")
+            }
+
         }
         
         for x in 0..<board.count {
