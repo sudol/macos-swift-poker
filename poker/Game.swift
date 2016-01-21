@@ -78,12 +78,54 @@ class Round {
     }
     
     func evaluate() {
-        players[4].winner = true
         
         for (index,player) in players.enumerate() {
             let hand = rankHand(player.hand, board: board)
             players[index].hand.handRank = hand.0
             players[index].hand.cards = hand.1
+        }
+        
+        /*
+        Find the highest handRank among all players.
+        */
+        var highestHandRank = HandRanking.HighCard;
+        for player in players {
+            //I should be able to do this without RawValue... wtf
+            if player.hand.handRank! > highestHandRank {
+                highestHandRank = player.hand.handRank!
+            }
+        }
+
+        /*
+        Get a list of all the players with that handRank
+        */
+        var winners = [Player]()
+        for player in players {
+            if player.hand.handRank == highestHandRank {
+                winners.append(player)
+            }
+        }
+        
+        if winners.count > 1 {
+            var realWinners = [Player]()
+            for player in winners {
+                if realWinners.count < 1 {
+                    realWinners.append(player)
+                } else {
+                    for winner in realWinners {
+                        if player.hand.cards > winner.hand.cards {
+                            realWinners = [player]
+                        } else if player.hand.cards == winner.hand.cards {
+                            realWinners += [player]
+                        }
+                    }
+                }
+            }
+            for player in realWinners {
+                players[players.indexOf({$0.id == player.id})!].winner = true
+            }
+        } else {
+            players[players.indexOf({$0.id == winners[0].id})!].winner = true
         }
     }
     
@@ -102,7 +144,6 @@ class Round {
         
         result = checkForFourOfAKind(hand.holeCards + board)
         if (result.0 == true) {
-//            print("Round \(id) quads")
             return (HandRanking.FourOfAKind, result.1)
         }
 
@@ -143,7 +184,6 @@ class Round {
             return (HandRanking.OnePair, result.1)
         }
         
-        //Temporary default case
         var bestHand = hand.holeCards + board
         bestHand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
 
@@ -263,28 +303,12 @@ class Round {
         clubs.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
         
         if hearts.count > 4 {
-            //Make sure to only return 5 cards
-//            while (hearts.count != 5) {
-//                hearts.popLast()
-//            }
             return (true, hearts)
         } else if spades.count > 4 {
-            //Make sure to only return 5 cards
-//            while (spades.count != 5) {
-//                spades.popLast()
-//            }
             return (true, spades)
         } else if diamonds.count > 4 {
-            //Make sure to only return 5 cards
-//            while (diamonds.count != 5) {
-//                diamonds.popLast()
-//            }
             return (true, diamonds)
         } else if clubs.count > 4 {
-            //Make sure to only return 5 cards
-//            while (clubs.count != 5) {
-//                clubs.popLast()
-//            }
             return (true, clubs)
         } else {
             return (false, hand)
@@ -414,9 +438,6 @@ class Round {
         
         return (false, hand)
     }
-
-//    func checkForHighCard(hand : [Card]) -> (Bool, [Card]) {
-//    }
     
     func groupCardsByRank(cards : [Card]) -> [[Card]] {
         //Make an array with keys as card ranks

@@ -65,7 +65,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for _ in 1...10000 {
+        for _ in 1...100 {
             game.newRound()
             
             game.currentRound!.flop()
@@ -128,6 +128,10 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                     seatBox.borderWidth = 4
                 }
                 
+            } else {
+                if let seatBox = seats[x][0] as? NSBox {
+                    seatBox.borderWidth = 0
+                }
             }
             
             if (players[x].hand.handRank != nil) {

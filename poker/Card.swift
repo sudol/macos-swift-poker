@@ -86,6 +86,14 @@ enum HandRanking : Int {
     }
 }
 
+func <(a: HandRanking, b: HandRanking) -> Bool {
+    return a.rawValue < b.rawValue
+}
+
+func >(a: HandRanking, b: HandRanking) -> Bool {
+    return a.rawValue > b.rawValue
+}
+
 struct Card {
     var rank: Rank
     var suit: Suit
@@ -101,7 +109,56 @@ struct Card {
     func getImage() -> NSImage? {
         return NSImage(named: "\(rank.rawValue)\(suit.simpleDescription())")
     }
+}
+
+func <(a: Card, b: Card) -> Bool {
+    return a.rank.rawValue < b.rank.rawValue
+}
+
+func >(a: Card, b: Card) -> Bool {
+    return a.rank.rawValue > b.rank.rawValue
+}
+
+func ==(a: Card, b: Card) -> Bool {
+    return a.rank.rawValue == b.rank.rawValue
+}
+
+func !=(a: Card, b: Card) -> Bool {
+    return a.rank.rawValue != b.rank.rawValue
+}
+
+func <(a: [Card], b: [Card]) -> Bool {
+
+    for i in 0..<a.count {
+        if a[i] < b[i] {
+            return true
+        } else if a[i] > b[i] {
+            return false
+        }
+    }
+    return false
+}
+
+func >(a: [Card], b: [Card]) -> Bool {
     
+    for i in 0..<a.count {
+        if a[i] > b[i] {
+            return true
+        } else if a[i] < b[i] {
+            return false
+        }
+    }
+    return false
+}
+
+func ==(a: [Card], b: [Card]) -> Bool {
+    
+    for i in 0..<a.count {
+        if a[i] != b[i] {
+            return false
+        }
+    }
+    return true
 }
 
 class Deck {
