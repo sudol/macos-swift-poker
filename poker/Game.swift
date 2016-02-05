@@ -90,7 +90,6 @@ class Round {
         */
         var highestHandRank = HandRanking.HighCard;
         for player in players {
-            //I should be able to do this without RawValue... wtf
             if player.hand.handRank! > highestHandRank {
                 highestHandRank = player.hand.handRank!
             }

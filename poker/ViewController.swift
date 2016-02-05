@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource{
+class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate{
 
     // MARK: Properties
     @IBOutlet weak var seatOneCardOne: NSImageView!
@@ -60,20 +60,28 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     @IBOutlet var summaryBox: NSTextView!
     
-    var game = Game()
+    @IBOutlet var numberOfRounds: NSTextField!
+//    @IBOutlet var numberOfRoundsFormatter: NSNumberFormatter!
+    
+    @IBOutlet var generateButton: NSButton!
+    
+    @IBOutlet var table: NSTableView!
+    
+    @IBOutlet var royalFlushCount: NSTextField!
+    @IBOutlet var straightFlushCount: NSTextField!
+    @IBOutlet var fourOfAKindCount: NSTextField!
+    @IBOutlet var fullHouseCount: NSTextField!
+    @IBOutlet var flushCount: NSTextField!
+    @IBOutlet var straightCount: NSTextField!
+    @IBOutlet var threeOfAKindCount: NSTextField!
+    @IBOutlet var twoPairCount: NSTextField!
+    @IBOutlet var onePairCount: NSTextField!
+    @IBOutlet var highCardCount: NSTextField!
+    
+    @IBOutlet var progressBar: NSProgressIndicator!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        for _ in 1...100 {
-            game.newRound()
-            
-            game.currentRound!.flop()
-            game.currentRound!.turn()
-            game.currentRound!.river()
-
-            game.saveRound()
-        }
     }
 
     override var representedObject: AnyObject? {
@@ -81,6 +89,75 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         // Update the view, if already loaded.
         }
     }
+    
+    override func viewWillAppear() {
+        if (table != nil) {
+            table.reloadData()
+        }
+        
+//        print(numberOfRoundsFormatter.maximumIntegerDigits)
+    }
+    
+    @IBAction func generateRounds(sender: NSButton) {
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        
+        generateButton.enabled = false
+        progressBar.startAnimation(self)
+        let rounds = numberOfRounds.integerValue
+        
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            
+            
+            game = Game()
+            
+            var summary : [HandRanking:Int] = [
+                HandRanking.RoyalFlush : 0,
+                HandRanking.StraightFlush : 0,
+                HandRanking.FourOfAKind : 0,
+                HandRanking.FullHouse : 0,
+                HandRanking.Flush: 0,
+                HandRanking.Straight : 0,
+                HandRanking.ThreeOfAKind : 0,
+                HandRanking.TwoPair : 0,
+                HandRanking.OnePair : 0,
+                HandRanking.HighCard : 0
+            ]
+            
+            for _ in 1...rounds {
+                game.newRound()
+                
+                game.currentRound!.flop()
+                game.currentRound!.turn()
+                game.currentRound!.river()
+                
+                for player in game.currentRound!.players {
+                    summary[player.hand.handRank!] = summary[player.hand.handRank!]! + 1
+                }
+                
+                game.saveRound()
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.progressBar.stopAnimation(self)
+                self.generateButton.enabled = true
+                
+                self.royalFlushCount.integerValue = summary[HandRanking.RoyalFlush]!
+                self.straightFlushCount.integerValue = summary[HandRanking.StraightFlush]!
+                self.fourOfAKindCount.integerValue = summary[HandRanking.FourOfAKind]!
+                self.fullHouseCount.integerValue = summary[HandRanking.FullHouse]!
+                self.flushCount.integerValue = summary[HandRanking.Flush]!
+                self.straightCount.integerValue = summary[HandRanking.Straight]!
+                self.threeOfAKindCount.integerValue = summary[HandRanking.ThreeOfAKind]!
+                self.twoPairCount.integerValue = summary[HandRanking.TwoPair]!
+                self.onePairCount.integerValue = summary[HandRanking.OnePair]!
+                self.highCardCount.integerValue = summary[HandRanking.HighCard]!
+            }
+            
+        }
+
+
+    }
+    
     
     func showRound(roundId: Int) {
         if roundId < 0 {
@@ -150,6 +227,15 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         
         for x in 0..<board.count {
             board[x]?.image = game.rounds[roundId].board[x].getImage()
+        }
+    }
+    
+    //MARK: NSTextFieldDelegate
+    override func controlTextDidChange(obj: NSNotification) {
+        if (numberOfRounds.integerValue > 1) {
+            generateButton.enabled = true
+        } else {
+            generateButton.enabled = false
         }
     }
     
