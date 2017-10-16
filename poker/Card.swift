@@ -10,21 +10,21 @@ import Foundation
 import AppKit
 
 enum Rank: Int {
-    case AltAce = 1
-    case Two = 2
-    case Three, Four, Five, Six, Seven, Eight, Nine, Ten
-    case Jack, Queen, King, Ace
+    case altAce = 1
+    case two = 2
+    case three, four, five, six, seven, eight, nine, ten
+    case jack, queen, king, ace
     func simpleDescription() -> String {
         switch self {
-        case .AltAce:
+        case .altAce:
             return "A"
-        case .Ace:
+        case .ace:
             return "A"
-        case .Jack:
+        case .jack:
             return "J"
-        case .Queen:
+        case .queen:
             return "Q"
-        case .King:
+        case .king:
             return "K"
         default:
             return String(self.rawValue)
@@ -49,38 +49,38 @@ enum Suit: String {
 }
 
 enum HandRanking : Int {
-    case HighCard = 1
-    case OnePair
-    case TwoPair
-    case ThreeOfAKind
-    case Straight
-    case Flush
-    case FullHouse
-    case FourOfAKind
-    case StraightFlush
-    case RoyalFlush
+    case highCard = 1
+    case onePair
+    case twoPair
+    case threeOfAKind
+    case straight
+    case flush
+    case fullHouse
+    case fourOfAKind
+    case straightFlush
+    case royalFlush
     
     func simpleDescription() -> String {
         switch self {
-        case HighCard:
+        case .highCard:
             return "High Card"
-        case OnePair:
+        case .onePair:
             return "One Pair"
-        case TwoPair:
+        case .twoPair:
             return "Two Pair"
-        case ThreeOfAKind:
+        case .threeOfAKind:
             return "Three of a Kind"
-        case Straight:
+        case .straight:
             return "Straight"
-        case Flush:
+        case .flush:
             return "Flush"
-        case FullHouse:
+        case .fullHouse:
             return "Full House"
-        case FourOfAKind:
+        case .fourOfAKind:
             return "Four of a Kind"
-        case StraightFlush:
+        case .straightFlush:
             return "Straight Flush"
-        case RoyalFlush:
+        case .royalFlush:
             return "Royal Flush"
         }
     }
@@ -107,7 +107,7 @@ struct Card {
     }
     
     func getImage() -> NSImage? {
-        return NSImage(named: "\(rank.rawValue)\(suit.simpleDescription())")
+        return NSImage(named: NSImage.Name(rawValue: "\(rank.rawValue)\(suit.simpleDescription())"))
     }
 }
 
@@ -184,7 +184,7 @@ class Deck {
             for x in 0..<cards.count {
                 y = Int(arc4random_uniform(UInt32(cards.count)))
                 if x != y {
-                    swap(&cards[x], &cards[y])
+                    cards.swapAt(x, y)
                 }
             }
         }

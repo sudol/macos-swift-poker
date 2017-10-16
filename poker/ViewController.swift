@@ -84,7 +84,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         super.viewDidLoad()
     }
 
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
@@ -98,29 +98,29 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
 //        print(numberOfRoundsFormatter.maximumIntegerDigits)
     }
     
-    @IBAction func generateRounds(sender: NSButton) {
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+    @IBAction func generateRounds(_ sender: NSButton) {
+        let priority = DispatchQueue.GlobalQueuePriority.default
         
-        generateButton.enabled = false
+        generateButton.isEnabled = false
         progressBar.startAnimation(self)
         let rounds = numberOfRounds.integerValue
         
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+        DispatchQueue.global(priority: priority).async {
             
             
             game = Game()
             
             var summary : [HandRanking:Int] = [
-                HandRanking.RoyalFlush : 0,
-                HandRanking.StraightFlush : 0,
-                HandRanking.FourOfAKind : 0,
-                HandRanking.FullHouse : 0,
-                HandRanking.Flush: 0,
-                HandRanking.Straight : 0,
-                HandRanking.ThreeOfAKind : 0,
-                HandRanking.TwoPair : 0,
-                HandRanking.OnePair : 0,
-                HandRanking.HighCard : 0
+                HandRanking.royalFlush : 0,
+                HandRanking.straightFlush : 0,
+                HandRanking.fourOfAKind : 0,
+                HandRanking.fullHouse : 0,
+                HandRanking.flush: 0,
+                HandRanking.straight : 0,
+                HandRanking.threeOfAKind : 0,
+                HandRanking.twoPair : 0,
+                HandRanking.onePair : 0,
+                HandRanking.highCard : 0
             ]
             
             for _ in 1...rounds {
@@ -137,20 +137,20 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 game.saveRound()
             }
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.progressBar.stopAnimation(self)
-                self.generateButton.enabled = true
+                self.generateButton.isEnabled = true
                 
-                self.royalFlushCount.integerValue = summary[HandRanking.RoyalFlush]!
-                self.straightFlushCount.integerValue = summary[HandRanking.StraightFlush]!
-                self.fourOfAKindCount.integerValue = summary[HandRanking.FourOfAKind]!
-                self.fullHouseCount.integerValue = summary[HandRanking.FullHouse]!
-                self.flushCount.integerValue = summary[HandRanking.Flush]!
-                self.straightCount.integerValue = summary[HandRanking.Straight]!
-                self.threeOfAKindCount.integerValue = summary[HandRanking.ThreeOfAKind]!
-                self.twoPairCount.integerValue = summary[HandRanking.TwoPair]!
-                self.onePairCount.integerValue = summary[HandRanking.OnePair]!
-                self.highCardCount.integerValue = summary[HandRanking.HighCard]!
+                self.royalFlushCount.integerValue = summary[HandRanking.royalFlush]!
+                self.straightFlushCount.integerValue = summary[HandRanking.straightFlush]!
+                self.fourOfAKindCount.integerValue = summary[HandRanking.fourOfAKind]!
+                self.fullHouseCount.integerValue = summary[HandRanking.fullHouse]!
+                self.flushCount.integerValue = summary[HandRanking.flush]!
+                self.straightCount.integerValue = summary[HandRanking.straight]!
+                self.threeOfAKindCount.integerValue = summary[HandRanking.threeOfAKind]!
+                self.twoPairCount.integerValue = summary[HandRanking.twoPair]!
+                self.onePairCount.integerValue = summary[HandRanking.onePair]!
+                self.highCardCount.integerValue = summary[HandRanking.highCard]!
             }
             
         }
@@ -159,7 +159,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
     
     
-    func showRound(roundId: Int) {
+    func showRound(_ roundId: Int) {
         if roundId < 0 {
             return
         }
@@ -200,8 +200,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             if players[x].winner == true {
                 
                 if let seatBox = seats[x][0] as? NSBox {
-                    seatBox.borderType = NSBorderType.LineBorder
-                    seatBox.borderColor = NSColor.alternateSelectedControlColor()
+                    seatBox.borderType = NSBorderType.lineBorder
+                    seatBox.borderColor = NSColor.alternateSelectedControlColor
                     seatBox.borderWidth = 4
                 }
                 
@@ -212,15 +212,15 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             }
             
             if (players[x].hand.handRank != nil) {
-                summaryBox.textStorage?.mutableString.appendString(
+                summaryBox.textStorage?.mutableString.append(
                     "Player \(players[x].id) " +
                     String(players[x].hand.handRank!.simpleDescription()) + " "
                 )
                 
                 for card in players[x].hand.cards {
-                    summaryBox.textStorage?.mutableString.appendString(card.simpleDescription() + " ")
+                    summaryBox.textStorage?.mutableString.append(card.simpleDescription() + " ")
                 }
-                    summaryBox.textStorage?.mutableString.appendString("\n")
+                    summaryBox.textStorage?.mutableString.append("\n")
             }
 
         }
@@ -231,23 +231,23 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
     
     //MARK: NSTextFieldDelegate
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         if (numberOfRounds.integerValue > 1) {
-            generateButton.enabled = true
+            generateButton.isEnabled = true
         } else {
-            generateButton.enabled = false
+            generateButton.isEnabled = false
         }
     }
     
     //MARK: NSTableViewDataSource
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return game.rounds.count
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cellView: NSTableCellView = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self) as! NSTableCellView
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cellView: NSTableCellView = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as! NSTableCellView
         
-        if tableColumn!.identifier == "roundId" {
+        if tableColumn!.identifier.rawValue == "roundId" {
             let roundId = row
             cellView.textField!.stringValue = "Hand \(game.rounds[roundId].id)"
             
@@ -258,8 +258,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     }
     
     //MARK: NSTableViewDelegate
-    func tableViewSelectionDidChange(notification: NSNotification) {
-        showRound((notification.object?.selectedRow)!)
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        showRound(((notification.object as AnyObject).selectedRow)!)
     }
     
 }

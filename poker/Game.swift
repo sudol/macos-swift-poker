@@ -39,19 +39,19 @@ class Round {
     func deal() {
         for _ in 1...2 {
             for x in 0..<players.count {
-                players[x].hand.holeCards += [deck.cards.removeAtIndex(0)]
+                players[x].hand.holeCards += [deck.cards.remove(at: 0)]
             }
         }
     }
     
     func flop() {
         // Burn
-        deck.cards.removeAtIndex(0)
+        deck.cards.remove(at: 0)
         
         // 3 Cards
-        board += [deck.cards.removeAtIndex(0)]
-        board += [deck.cards.removeAtIndex(0)]
-        board += [deck.cards.removeAtIndex(0)]
+        board += [deck.cards.remove(at: 0)]
+        board += [deck.cards.remove(at: 0)]
+        board += [deck.cards.remove(at: 0)]
 //        board += [Card(rank:Rank(rawValue:14)!, suit: .Heart)]
 //        board += [Card(rank:Rank(rawValue:2)!, suit: .Spade)]
 //        board += [Card(rank:Rank(rawValue:3)!, suit: .Club)]
@@ -59,19 +59,19 @@ class Round {
     
     func turn() {
         // Burn
-        deck.cards.removeAtIndex(0)
+        deck.cards.remove(at: 0)
 
         // 1 Card
-        board += [deck.cards.removeAtIndex(0)]
+        board += [deck.cards.remove(at: 0)]
 //        board += [Card(rank:Rank(rawValue:4)!, suit: .Diamond)]
     }
     
     func river() {
         // Burn
-        deck.cards.removeAtIndex(0)
+        deck.cards.remove(at: 0)
         
         // 1 Card
-        board += [deck.cards.removeAtIndex(0)]
+        board += [deck.cards.remove(at: 0)]
 //        board += [Card(rank:Rank(rawValue:5)!, suit: .Heart)]
         
         evaluate()
@@ -79,7 +79,7 @@ class Round {
     
     func evaluate() {
         
-        for (index,player) in players.enumerate() {
+        for (index,player) in players.enumerated() {
             let hand = rankHand(player.hand, board: board)
             players[index].hand.handRank = hand.0
             players[index].hand.cards = hand.1
@@ -88,7 +88,7 @@ class Round {
         /*
         Find the highest handRank among all players.
         */
-        var highestHandRank = HandRanking.HighCard;
+        var highestHandRank = HandRanking.highCard;
         for player in players {
             if player.hand.handRank! > highestHandRank {
                 highestHandRank = player.hand.handRank!
@@ -121,34 +121,34 @@ class Round {
                 }
             }
             for player in realWinners {
-                players[players.indexOf({$0.id == player.id})!].winner = true
+                players[players.index(where: {$0.id == player.id})!].winner = true
             }
         } else {
-            players[players.indexOf({$0.id == winners[0].id})!].winner = true
+            players[players.index(where: {$0.id == winners[0].id})!].winner = true
         }
     }
     
-    func rankHand(hand : Hand, board : [Card]) -> (HandRanking?, [Card]) {
+    func rankHand(_ hand : Hand, board : [Card]) -> (HandRanking?, [Card]) {
 
         var result = checkForRoyalFlush(hand.holeCards + board)
         if (result.0 == true) {
 //            print("Round \(id) Royal Flush")
-            return (HandRanking.RoyalFlush, result.1)
+            return (HandRanking.royalFlush, result.1)
         }
 
         result = checkForStraightFlush(hand.holeCards + board)
         if (result.0 == true) {
-            return (HandRanking.StraightFlush, result.1)
+            return (HandRanking.straightFlush, result.1)
         }
         
         result = checkForFourOfAKind(hand.holeCards + board)
         if (result.0 == true) {
-            return (HandRanking.FourOfAKind, result.1)
+            return (HandRanking.fourOfAKind, result.1)
         }
 
         result = checkForFullHouse(hand.holeCards + board)
         if (result.0 == true) {
-            return (HandRanking.FullHouse, result.1)
+            return (HandRanking.fullHouse, result.1)
         }
         
         result = checkForFlush(hand.holeCards + board)
@@ -160,37 +160,37 @@ class Round {
             while (result.1.count != 5) {
                 result.1.popLast()
             }
-            return (HandRanking.Flush, result.1)
+            return (HandRanking.flush, result.1)
         }
         
         result = checkForStraight(hand.holeCards + board)
         if (result.0 == true) {
-            return (HandRanking.Straight, result.1)
+            return (HandRanking.straight, result.1)
         }
 
         result = checkForThreeOfAKind(hand.holeCards + board)
         if (result.0 == true) {
-            return (HandRanking.ThreeOfAKind, result.1)
+            return (HandRanking.threeOfAKind, result.1)
         }
         
         result = checkForTwoPair(hand.holeCards + board)
         if (result.0 == true) {
-            return (HandRanking.TwoPair, result.1)
+            return (HandRanking.twoPair, result.1)
         }
 
         result = checkForOnePair(hand.holeCards + board)
         if (result.0 == true) {
-            return (HandRanking.OnePair, result.1)
+            return (HandRanking.onePair, result.1)
         }
         
         var bestHand = hand.holeCards + board
-        bestHand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+        bestHand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
 
-        return (HandRanking.HighCard, Array(bestHand[0...4]))
+        return (HandRanking.highCard, Array(bestHand[0...4]))
         
     }
     
-    func checkForRoyalFlush(hand : [Card]) -> (Bool, [Card]) {
+    func checkForRoyalFlush(_ hand : [Card]) -> (Bool, [Card]) {
         let result = checkForStraightFlush(hand)
         if result.0 == true {
             if result.1.first?.rank.rawValue == 14 {
@@ -201,7 +201,7 @@ class Round {
         return (false, hand)
     }
     
-    func checkForStraightFlush(hand : [Card]) -> (Bool, [Card]) {
+    func checkForStraightFlush(_ hand : [Card]) -> (Bool, [Card]) {
         let result = checkForFlush(hand)
         if result.0 == true {
             let nextResult = checkForStraight(result.1)
@@ -213,7 +213,8 @@ class Round {
         return (false, hand)
     }
 
-    func checkForFourOfAKind(var hand : [Card]) -> (Bool, [Card]) {
+    func checkForFourOfAKind(_ hand : [Card]) -> (Bool, [Card]) {
+        var hand = hand
 
         let cardsGroupedByRank = groupCardsByRank(hand)
         
@@ -225,11 +226,11 @@ class Round {
                 remaining card
                 */
                 for card in cardsOfARank {
-                    let cardToRemove = hand.indexOf({$0.rank.rawValue == card.rank.rawValue})
-                    hand.removeAtIndex(cardToRemove!)
+                    let cardToRemove = hand.index(where: {$0.rank.rawValue == card.rank.rawValue})
+                    hand.remove(at: cardToRemove!)
                 }
                 
-                hand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+                hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
                 
                 return (true, cardsOfARank + [hand[0]])
             }
@@ -238,7 +239,8 @@ class Round {
         return (false, hand)
     }
     
-    func checkForFullHouse(var hand : [Card]) -> (Bool, [Card]) {
+    func checkForFullHouse(_ hand : [Card]) -> (Bool, [Card]) {
+        var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
         var bestHand = [Card]()
@@ -250,8 +252,8 @@ class Round {
                 remaining cards
                 */
                 for card in cardsOfARank {
-                    let cardToRemove = hand.indexOf({$0.rank.rawValue == card.rank.rawValue})
-                    bestHand.append(hand.removeAtIndex(cardToRemove!))
+                    let cardToRemove = hand.index(where: {$0.rank.rawValue == card.rank.rawValue})
+                    bestHand.append(hand.remove(at: cardToRemove!))
                 }
 
                 //Group the remaining cards and look for the highest pair
@@ -281,7 +283,7 @@ class Round {
         return (false, hand)
     }
     
-    func checkForFlush(hand : [Card]) -> (Bool, [Card]) {
+    func checkForFlush(_ hand : [Card]) -> (Bool, [Card]) {
         var hearts = [Card](), spades = [Card]() , diamonds = [Card](), clubs = [Card]()
         for card in hand {
             switch card.suit {
@@ -296,10 +298,10 @@ class Round {
             }
         }
         
-        hearts.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
-        spades.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
-        diamonds.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
-        clubs.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+        hearts.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
+        spades.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
+        diamonds.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
+        clubs.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
         
         if hearts.count > 4 {
             return (true, hearts)
@@ -314,12 +316,13 @@ class Round {
         }
     }
     
-    func checkForStraight(var hand : [Card]) -> (Bool, [Card]) {
+    func checkForStraight(_ hand : [Card]) -> (Bool, [Card]) {
+        var hand = hand
         
         hand = removeDuplicateRanks(hand)
-        hand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+        hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
         
-        for (index,card) in hand.enumerate() {
+        for (index,card) in hand.enumerated() {
             
             //Check if the raw value of the next card is one less that this value
             if index + 4 < hand.count
@@ -334,11 +337,11 @@ class Round {
         
         //Try the same thing, with the Ace as 1 instead of 14
         
-        if let aceIndex = hand.indexOf({$0.rank.rawValue == 14}) {
-            hand[aceIndex].rank = .AltAce
-            hand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+        if let aceIndex = hand.index(where: {$0.rank.rawValue == 14}) {
+            hand[aceIndex].rank = .altAce
+            hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
             
-            for (index,card) in hand.enumerate() {
+            for (index,card) in hand.enumerated() {
                 
                 //Check if the raw value of the next card is one less that this value
                 if index + 4 < hand.count
@@ -352,15 +355,16 @@ class Round {
             }
             
             //If there is no straight, set the Ace back to it's regular rank
-            hand[aceIndex].rank = .Ace
-            hand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+            hand[aceIndex].rank = .ace
+            hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
         }
         
         
         return (false, hand)
     }
 
-    func checkForThreeOfAKind(var hand : [Card]) -> (Bool, [Card]) {
+    func checkForThreeOfAKind(_ hand : [Card]) -> (Bool, [Card]) {
+        var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
         //Find a rank that has 3 cards in it
@@ -371,11 +375,11 @@ class Round {
                 remaining cards
                 */
                 for card in cardsOfARank {
-                    let cardToRemove = hand.indexOf({$0.rank.rawValue == card.rank.rawValue})
-                    hand.removeAtIndex(cardToRemove!)
+                    let cardToRemove = hand.index(where: {$0.rank.rawValue == card.rank.rawValue})
+                    hand.remove(at: cardToRemove!)
                 }
                 
-                hand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+                hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
                 
                 return (true, cardsOfARank + hand[0...1])
             }
@@ -384,7 +388,8 @@ class Round {
         return (false, hand)
     }
 
-    func checkForTwoPair(var hand : [Card]) -> (Bool, [Card]) {
+    func checkForTwoPair(_ hand : [Card]) -> (Bool, [Card]) {
+        var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
         var bestHand = [Card]()
@@ -396,24 +401,25 @@ class Round {
                 Remove the pair from the hand and get the highest remaining cards
                 */
                 for card in cardsOfARank {
-                    let cardToRemove = hand.indexOf({$0.rank.rawValue == card.rank.rawValue})
-                    bestHand.append(hand.removeAtIndex(cardToRemove!))
+                    let cardToRemove = hand.index(where: {$0.rank.rawValue == card.rank.rawValue})
+                    bestHand.append(hand.remove(at: cardToRemove!))
                 }
                 
-                pairsFound++
+                pairsFound += 1
 
             }
         }
         
         if (pairsFound == 2) {
-            hand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+            hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
             return (true, bestHand + [hand[0]])
         }
         
         return (false, hand)
     }
 
-    func checkForOnePair(var hand : [Card]) -> (Bool, [Card]) {
+    func checkForOnePair(_ hand : [Card]) -> (Bool, [Card]) {
+        var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
         var bestHand = [Card]()
@@ -425,11 +431,11 @@ class Round {
                 Remove the pair from the hand and get the highest remaining cards
                 */
                 for card in cardsOfARank {
-                    let cardToRemove = hand.indexOf({$0.rank.rawValue == card.rank.rawValue})
-                    bestHand.append(hand.removeAtIndex(cardToRemove!))
+                    let cardToRemove = hand.index(where: {$0.rank.rawValue == card.rank.rawValue})
+                    bestHand.append(hand.remove(at: cardToRemove!))
                 }
                 
-                hand.sortInPlace({$0.rank.rawValue > $1.rank.rawValue})
+                hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
                 return (true, bestHand + hand[0...2])
                 
             }
@@ -438,27 +444,27 @@ class Round {
         return (false, hand)
     }
     
-    func groupCardsByRank(cards : [Card]) -> [[Card]] {
+    func groupCardsByRank(_ cards : [Card]) -> [[Card]] {
         //Make an array with keys as card ranks
-        var ranks = Array(count: 15, repeatedValue : [Card]())
+        var ranks = Array(repeating: [Card](), count: 15)
         
         //Add each card to the array of ranks
         for card in cards {
             ranks[card.rank.rawValue].append(card)
         }
 
-        return ranks.reverse()
+        return ranks.reversed()
     }
     
-    func removeDuplicateRanks(cards : [Card]) -> [Card] {
+    func removeDuplicateRanks(_ cards : [Card]) -> [Card] {
         
         var cardsCopy = cards
         var ranks = [Int]()
         
         for card in cards {
-            if (ranks.indexOf(card.rank.rawValue) != nil) {
-                cardsCopy.removeAtIndex(
-                    cardsCopy.indexOf({$0.rank.rawValue == card.rank.rawValue})!
+            if (ranks.index(of: card.rank.rawValue) != nil) {
+                cardsCopy.remove(
+                    at: cardsCopy.index(where: {$0.rank.rawValue == card.rank.rawValue})!
                 )
             } else {
                 ranks += [card.rank.rawValue]
@@ -483,7 +489,8 @@ class Game {
     }
     
     func newRound() {
-        currentRound = Round(id: ++currentRoundId, players: players)
+        currentRoundId += 1
+        currentRound = Round(id: currentRoundId, players: players)
         currentRound!.deal()
     }
     
