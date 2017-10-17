@@ -81,8 +81,8 @@ class Round {
         
         for (index,player) in players.enumerated() {
             let hand = rankHand(player.hand, board: board)
-            players[index].hand.handRank = hand.0
-            players[index].hand.cards = hand.1
+            players[index].hand.handRank = hand.rank
+            players[index].hand.cards = hand.cards
         }
         
         /*
@@ -127,93 +127,95 @@ class Round {
             players[players.index(where: {$0.id == winners[0].id})!].winner = true
         }
     }
-    
-    func rankHand(_ hand : Hand, board : [Card]) -> (HandRanking?, [Card]) {
 
-        var result = checkForRoyalFlush(hand.holeCards + board)
-        if (result.0 == true) {
-//            print("Round \(id) Royal Flush")
-            return (HandRanking.royalFlush, result.1)
+    struct HandEvaluation {
+        let rank: HandRanking
+        let cards: [Card]
+        init(_ rank: HandRanking, cards: [Card]) {
+            self.rank = rank
+            self.cards = cards
         }
+    }
 
-        result = checkForStraightFlush(hand.holeCards + board)
-        if (result.0 == true) {
-            return (HandRanking.straightFlush, result.1)
-        }
-        
-        result = checkForFourOfAKind(hand.holeCards + board)
-        if (result.0 == true) {
-            return (HandRanking.fourOfAKind, result.1)
+    func rankHand(_ hand : Hand, board : [Card]) -> HandEvaluation {
+        let allCards = hand.holeCards + board
+        if case let .success(cards) = checkForRoyalFlush(allCards) {
+            return HandEvaluation(.royalFlush, cards: cards)
         }
 
-        result = checkForFullHouse(hand.holeCards + board)
-        if (result.0 == true) {
-            return (HandRanking.fullHouse, result.1)
+        if case let .success(cards) = checkForStraightFlush(allCards) {
+            return HandEvaluation(.straightFlush, cards: cards)
         }
-        
-        result = checkForFlush(hand.holeCards + board)
-        if (result.0 == true) {
+
+        if case let .success(cards) = checkForFourOfAKind(allCards) {
+            return HandEvaluation(.fourOfAKind, cards: cards)
+        }
+
+        if case let .success(cards) = checkForFullHouse(allCards) {
+            return HandEvaluation(.fourOfAKind, cards: cards)
+        }
+
+        if case let .success(cards) = checkForFlush(allCards) {
+            var flushCards = cards
             /*
-            The flush check can return more than 5 cards because it is used
-            to find straight flushes as well.
-            */
-            while (result.1.count != 5) {
-                result.1.popLast()
+             The flush check can return more than 5 cards because it is used
+             to find straight flushes as well.
+             */
+
+            while (flushCards.count != 5) {
+                _ = flushCards.popLast()
             }
-            return (HandRanking.flush, result.1)
-        }
-        
-        result = checkForStraight(hand.holeCards + board)
-        if (result.0 == true) {
-            return (HandRanking.straight, result.1)
+
+            return HandEvaluation(.flush, cards: flushCards)
         }
 
-        result = checkForThreeOfAKind(hand.holeCards + board)
-        if (result.0 == true) {
-            return (HandRanking.threeOfAKind, result.1)
-        }
-        
-        result = checkForTwoPair(hand.holeCards + board)
-        if (result.0 == true) {
-            return (HandRanking.twoPair, result.1)
+        if case let .success(cards) = checkForStraight(allCards) {
+            return HandEvaluation(.straight, cards: cards)
         }
 
-        result = checkForOnePair(hand.holeCards + board)
-        if (result.0 == true) {
-            return (HandRanking.onePair, result.1)
+        if case let .success(cards) = checkForThreeOfAKind(allCards) {
+            return HandEvaluation(.threeOfAKind, cards: cards)
         }
-        
+
+        if case let .success(cards) = checkForTwoPair(allCards) {
+            return HandEvaluation(.twoPair, cards: cards)
+        }
+
+        if case let .success(cards) = checkForOnePair(allCards) {
+            return HandEvaluation(.onePair, cards: cards)
+        }
+
+
         var bestHand = hand.holeCards + board
         bestHand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
 
-        return (HandRanking.highCard, Array(bestHand[0...4]))
+        return HandEvaluation(.highCard, cards: Array(bestHand[0...4]))
         
     }
-    
-    func checkForRoyalFlush(_ hand : [Card]) -> (Bool, [Card]) {
-        let result = checkForStraightFlush(hand)
-        if result.0 == true {
-            if result.1.first?.rank.rawValue == 14 {
-                return (true, result.1)
-            }
-        }
-        
-        return (false, hand)
+    enum CheckResult {
+        case failed
+        case success([Card])
     }
     
-    func checkForStraightFlush(_ hand : [Card]) -> (Bool, [Card]) {
-        let result = checkForFlush(hand)
-        if result.0 == true {
-            let nextResult = checkForStraight(result.1)
-            if nextResult.0 == true {
-                return (true, nextResult.1)
+    func checkForRoyalFlush(_ hand : [Card]) -> CheckResult {
+        if case let .success(cards) = checkForStraightFlush(hand) {
+            if cards.first?.rank == .ace {
+                return .success(cards)
             }
         }
-        
-        return (false, hand)
+        return .failed
+    }
+    
+    func checkForStraightFlush(_ hand : [Card]) -> CheckResult {
+        if case let .success(cards) = checkForFlush(hand) {
+            if case let .success(straignt) = checkForStraight(cards) {
+                return .success(straignt)
+            }
+        }
+        return .failed
     }
 
-    func checkForFourOfAKind(_ hand : [Card]) -> (Bool, [Card]) {
+    func checkForFourOfAKind(_ hand : [Card]) -> CheckResult {
         var hand = hand
 
         let cardsGroupedByRank = groupCardsByRank(hand)
@@ -232,14 +234,14 @@ class Round {
                 
                 hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
                 
-                return (true, cardsOfARank + [hand[0]])
+                return .success(cardsOfARank + [hand[0]])
             }
         }
         
-        return (false, hand)
+        return .failed
     }
     
-    func checkForFullHouse(_ hand : [Card]) -> (Bool, [Card]) {
+    func checkForFullHouse(_ hand : [Card]) -> CheckResult {
         var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
@@ -268,7 +270,7 @@ class Round {
                         bestHand.append(remainingCardsOfARank[0])
                         bestHand.append(remainingCardsOfARank[1])
                         
-                        return (true, bestHand)
+                        return .success(bestHand)
                     }
                 }
                 
@@ -276,14 +278,14 @@ class Round {
                 Can return here because we found three of a kind, but didn't
                 find another pair
                 */
-                return (false, hand)
+                return .failed
             }
         }
         
-        return (false, hand)
+        return .failed
     }
     
-    func checkForFlush(_ hand : [Card]) -> (Bool, [Card]) {
+    func checkForFlush(_ hand : [Card]) -> CheckResult {
         var hearts = [Card](), spades = [Card]() , diamonds = [Card](), clubs = [Card]()
         for card in hand {
             switch card.suit {
@@ -304,19 +306,19 @@ class Round {
         clubs.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
         
         if hearts.count > 4 {
-            return (true, hearts)
+            return .success(hearts)
         } else if spades.count > 4 {
-            return (true, spades)
+            return .success(spades)
         } else if diamonds.count > 4 {
-            return (true, diamonds)
+            return .success(diamonds)
         } else if clubs.count > 4 {
-            return (true, clubs)
+            return .success(clubs)
         } else {
-            return (false, hand)
+            return .failed
         }
     }
     
-    func checkForStraight(_ hand : [Card]) -> (Bool, [Card]) {
+    func checkForStraight(_ hand : [Card]) -> CheckResult {
         var hand = hand
         
         hand = removeDuplicateRanks(hand)
@@ -331,7 +333,7 @@ class Round {
                 && hand[index+3].rank.rawValue == card.rank.rawValue - 3
                 && hand[index+4].rank.rawValue == card.rank.rawValue - 4
             {
-                return (true, Array(hand[index...index+4]))
+                return .success(Array(hand[index...index+4]))
             }
         }
         
@@ -350,7 +352,7 @@ class Round {
                     && hand[index+3].rank.rawValue == card.rank.rawValue - 3
                     && hand[index+4].rank.rawValue == card.rank.rawValue - 4
                 {
-                    return (true, Array(hand[index...index+4]))
+                    return .success(Array(hand[index...index+4]))
                 }
             }
             
@@ -360,10 +362,10 @@ class Round {
         }
         
         
-        return (false, hand)
+        return .failed
     }
 
-    func checkForThreeOfAKind(_ hand : [Card]) -> (Bool, [Card]) {
+    func checkForThreeOfAKind(_ hand : [Card]) -> CheckResult {
         var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
@@ -381,14 +383,14 @@ class Round {
                 
                 hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
                 
-                return (true, cardsOfARank + hand[0...1])
+                return .success(cardsOfARank + hand[0...1])
             }
         }
         
-        return (false, hand)
+        return .failed
     }
 
-    func checkForTwoPair(_ hand : [Card]) -> (Bool, [Card]) {
+    func checkForTwoPair(_ hand : [Card]) -> CheckResult {
         var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
@@ -412,13 +414,13 @@ class Round {
         
         if (pairsFound == 2) {
             hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
-            return (true, bestHand + [hand[0]])
+            return .success(bestHand + [hand[0]])
         }
         
-        return (false, hand)
+        return .failed
     }
 
-    func checkForOnePair(_ hand : [Card]) -> (Bool, [Card]) {
+    func checkForOnePair(_ hand : [Card]) -> CheckResult {
         var hand = hand
         let cardsGroupedByRank = groupCardsByRank(hand)
         
@@ -436,12 +438,12 @@ class Round {
                 }
                 
                 hand.sort(by: {$0.rank.rawValue > $1.rank.rawValue})
-                return (true, bestHand + hand[0...2])
+                return .success(bestHand + hand[0...2])
                 
             }
         }
         
-        return (false, hand)
+        return .failed
     }
     
     func groupCardsByRank(_ cards : [Card]) -> [[Card]] {
