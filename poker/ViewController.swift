@@ -249,7 +249,9 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         
         if tableColumn!.identifier.rawValue == "roundId" {
             let roundId = row
-            cellView.textField!.stringValue = "Hand \(game.rounds[roundId].id)"
+            let round = game.rounds[roundId]
+            let winningHand = round.players.first { $0.winner }!.hand
+            cellView.textField!.stringValue = "Hand \(round.id) : \(winningHand.handRank!.simpleDescription())"
             
             return cellView
         }
