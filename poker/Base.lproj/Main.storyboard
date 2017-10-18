@@ -984,10 +984,7 @@
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="m6D-kz-KRg">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="width" constant="96" id="3q2-sj-AMC"/>
-                                                                                    </constraints>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="232" height="17"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="f8O-Du-bFb">
                                                                                         <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -997,6 +994,8 @@
                                                                             </subviews>
                                                                             <constraints>
                                                                                 <constraint firstItem="m6D-kz-KRg" firstAttribute="centerY" secondItem="yEv-aK-hEU" secondAttribute="centerY" id="4AQ-yo-Ie3"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="m6D-kz-KRg" secondAttribute="trailing" constant="2" id="JNZ-Fb-u6y"/>
+                                                                                <constraint firstItem="m6D-kz-KRg" firstAttribute="leading" secondItem="yEv-aK-hEU" secondAttribute="leading" constant="2" id="UNY-8A-eZH"/>
                                                                                 <constraint firstItem="m6D-kz-KRg" firstAttribute="leading" secondItem="yEv-aK-hEU" secondAttribute="leading" constant="2" id="uDq-OD-cAD"/>
                                                                             </constraints>
                                                                             <connections>
@@ -1059,7 +1058,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jbi-yI-dtm">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="orD-bx-nLe"/>
                                                                 <constraint firstAttribute="width" constant="72" id="yFG-eC-OIG"/>
@@ -1079,7 +1078,6 @@
                                                     <constraint firstAttribute="height" constant="136" id="lPb-7c-Znc"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 3" translatesAutoresizingMaskIntoConstraints="NO" id="bcw-Tn-P7f">
@@ -1106,7 +1104,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qNu-SN-k2A">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="72" id="3mi-fH-Ojs"/>
                                                                 <constraint firstAttribute="height" constant="96" id="O7x-Jz-Sa7"/>
@@ -1126,7 +1124,6 @@
                                                     <constraint firstAttribute="height" constant="136" id="jgq-eV-58j"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 8" translatesAutoresizingMaskIntoConstraints="NO" id="aKh-AF-qy0">
@@ -1153,7 +1150,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-bl-k6e">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="82C-V7-1CH"/>
                                                                 <constraint firstAttribute="width" constant="72" id="IZL-AZ-u37"/>
@@ -1173,7 +1170,6 @@
                                                     <constraint firstAttribute="width" constant="172" id="YyD-dL-Rsl"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 9" translatesAutoresizingMaskIntoConstraints="NO" id="E3C-RT-PMF">
@@ -1191,7 +1187,7 @@
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="card-back" id="nAD-IH-4S1"/>
                                                         </imageView>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oOk-NQ-3Id">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="GD1-1M-DlG"/>
                                                                 <constraint firstAttribute="width" constant="72" id="UFX-I4-h4C"/>
@@ -1220,7 +1216,6 @@
                                                     <constraint firstAttribute="width" constant="172" id="zNV-Xk-Moe"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 6" translatesAutoresizingMaskIntoConstraints="NO" id="qqu-xw-hHk">
@@ -1247,7 +1242,7 @@
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="card-back" id="JMo-T1-IOV"/>
                                                         </imageView>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G3y-40-iWx">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="63Q-Pv-QMX"/>
                                                                 <constraint firstAttribute="width" constant="72" id="9WK-wp-iwF"/>
@@ -1267,7 +1262,6 @@
                                                     <constraint firstAttribute="height" constant="136" id="lWt-xV-WMT"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 5" translatesAutoresizingMaskIntoConstraints="NO" id="woH-bW-EvN">
@@ -1294,7 +1288,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="riD-Sd-DWi">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="72" id="DOe-gV-Yq5"/>
                                                                 <constraint firstAttribute="height" constant="96" id="Mlm-0T-ZZ6"/>
@@ -1314,7 +1308,6 @@
                                                     <constraint firstAttribute="width" constant="172" id="scm-ur-Kc4"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 1" translatesAutoresizingMaskIntoConstraints="NO" id="jAN-j5-kwv">
@@ -1341,7 +1334,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="moB-JD-Pae">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="HLR-aI-FRy"/>
                                                                 <constraint firstAttribute="width" constant="72" id="J8e-Xu-0eM"/>
@@ -1361,7 +1354,6 @@
                                                     <constraint firstAttribute="height" constant="136" id="mPr-G9-8uC"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 10" translatesAutoresizingMaskIntoConstraints="NO" id="zPA-Qo-lYR">
@@ -1379,7 +1371,7 @@
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="card-back" id="Hd2-cj-TEf"/>
                                                         </imageView>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VXS-9w-opT">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="Fhj-ts-bHH"/>
                                                                 <constraint firstAttribute="width" constant="72" id="u9b-kP-T8m"/>
@@ -1408,7 +1400,6 @@
                                                     <constraint firstAttribute="width" constant="172" id="Ye5-1u-f46"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 2" translatesAutoresizingMaskIntoConstraints="NO" id="iLS-qc-nJh">
@@ -1435,7 +1426,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UI8-B4-w2t">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="GBL-IY-F1e"/>
                                                                 <constraint firstAttribute="width" constant="72" id="iJh-kA-1rD"/>
@@ -1455,7 +1446,6 @@
                                                     <constraint firstAttribute="width" constant="172" id="qpd-2C-XPs"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <box boxType="custom" borderType="none" title="Seat 7" translatesAutoresizingMaskIntoConstraints="NO" id="Ceq-Dk-OAx">
@@ -1482,7 +1472,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dib-hr-UCv">
-                                                            <rect key="frame" x="9" y="10" width="72" height="96"/>
+                                                            <rect key="frame" x="9.5" y="10" width="72" height="96"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="96" id="U9Z-aF-wsG"/>
                                                                 <constraint firstAttribute="width" constant="72" id="ewL-Mm-svQ"/>
@@ -1502,7 +1492,6 @@
                                                     <constraint firstAttribute="width" constant="172" id="pXQ-h1-x74"/>
                                                 </constraints>
                                                 <color key="borderColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <font key="titleFont" metaFont="system"/>
                                             </box>
                                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1BZ-T0-hGZ">
