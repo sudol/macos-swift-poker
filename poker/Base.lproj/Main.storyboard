@@ -984,10 +984,7 @@
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="m6D-kz-KRg">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="width" constant="96" id="3q2-sj-AMC"/>
-                                                                                    </constraints>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="234" height="17"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="f8O-Du-bFb">
                                                                                         <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -997,6 +994,7 @@
                                                                             </subviews>
                                                                             <constraints>
                                                                                 <constraint firstItem="m6D-kz-KRg" firstAttribute="centerY" secondItem="yEv-aK-hEU" secondAttribute="centerY" id="4AQ-yo-Ie3"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="m6D-kz-KRg" secondAttribute="trailing" id="dH8-6L-s96"/>
                                                                                 <constraint firstItem="m6D-kz-KRg" firstAttribute="leading" secondItem="yEv-aK-hEU" secondAttribute="leading" constant="2" id="uDq-OD-cAD"/>
                                                                             </constraints>
                                                                             <connections>

@@ -30,6 +30,7 @@ class Round {
     var players : [Player]
     var board = [Card]()
     var deck = Deck()
+    var winningHand: HandRanking?
     
     init(id : Int, players : [Player]) {
         self.id = id
@@ -126,6 +127,9 @@ class Round {
         } else {
             players[players.index(where: {$0.id == winners[0].id})!].winner = true
         }
+        
+        self.winningHand = winners.first?.hand.handRank
+        
     }
     
     func rankHand(_ hand : Hand, board : [Card]) -> (HandRanking?, [Card]) {
